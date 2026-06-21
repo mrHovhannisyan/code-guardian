@@ -28,3 +28,16 @@ class RepoReport(BaseModel):
     github: GitHubMetadata = Field(default_factory=GitHubMetadata)
     severity_counts: dict[str, int]
     vulnerabilities: list[Vulnerability]
+
+
+class ScanResult(BaseModel):
+    repository_name: str
+    repository_path: Path
+    report_path: Path | None = None
+    dot_path: Path | None = None
+    report: RepoReport | None = None
+    error: str | None = None
+
+    @property
+    def succeeded(self) -> bool:
+        return self.error is None
