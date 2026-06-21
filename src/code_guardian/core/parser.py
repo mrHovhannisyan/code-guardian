@@ -1,4 +1,5 @@
 import json
+from collections import Counter
 from typing import Any
 
 from code_guardian.models import SEVERITIES, Vulnerability
@@ -32,6 +33,11 @@ def parse_trivy_json(raw: str) -> list[Vulnerability]:
             )
 
     return vulnerabilities
+
+
+def count_by_severity(vulnerabilities: list[Vulnerability]) -> dict[str, int]:
+    counts = Counter(v.severity for v in vulnerabilities)
+    return {severity: counts.get(severity, 0) for severity in SEVERITIES}
 
 
 def normalize_severity(value: Any) -> str:

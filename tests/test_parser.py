@@ -1,4 +1,4 @@
-from code_guardian.parser import parse_trivy_json
+from code_guardian.core.parser import parse_trivy_json
 
 
 def test_parse_trivy_json_extracts_required_fields():

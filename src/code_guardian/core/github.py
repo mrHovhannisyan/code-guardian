@@ -1,5 +1,5 @@
 import logging
-import re 
+import re
 import subprocess
 from pathlib import Path
 
