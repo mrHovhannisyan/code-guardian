@@ -1,6 +1,6 @@
-    # code-guardian
+# code-guardian
 
-`code-guardian` is a small Python CLI that scans local repositories with Trivy, summarizes vulnerabilities, and writes JSON plus Graphviz DOT reports.
+`code-guardian` is a small Python CLI that scans local Git repositories with Trivy, summarizes vulnerabilities, and produces JSON and Graphviz DOT reports.
 
 The MVP is intentionally narrow: local paths in, Trivy JSON out, simple dependency nodes, and best-effort GitHub repository metadata.
 
@@ -25,6 +25,14 @@ Run tests:
 pytest
 ```
 
+Tests focus on deterministic business logic:
+
+- Trivy JSON parsing
+- Severity aggregation
+- Graph rendering
+
+External systems such as Trivy and the GitHub API are intentionally not unit-tested in this MVP.
+
 ## Run with Docker
 
 Build:
@@ -42,6 +50,15 @@ docker run --rm \
   code-guardian scan /scan/repo --output-dir /reports
 ```
 
+## Architecture
+
+- `cli.py`: CLI entrypoint and orchestration
+- `core/scanner.py`: Trivy execution and report generation
+- `core/parser.py`: Trivy JSON parsing and severity aggregation
+- `core/github.py`: GitHub repository metadata lookup
+- `core/graph.py`: Graphviz DOT rendering
+- `models.py`: Pydantic domain models
+
 ## Output
 
 For each input repository, the CLI writes:
@@ -55,7 +72,7 @@ It also prints a compact summary like:
 repo-a: total=3 CRITICAL=1 HIGH=1 MEDIUM=1 LOW=0 UNKNOWN=0 stars=42 forks=7
 ```
 
-If any repository fails, the command continues scanning the rest and exits with a non-zero status.
+The scanner processes repositories independently, so failure in one repository does not stop scans of the remaining repositories. The command exits with a non-zero status if any repository fails.
 
 ## Assumptions
 
