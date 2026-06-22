@@ -106,3 +106,10 @@ The scanner processes repositories independently, so failure in one repository d
 - Add severity threshold configuration.
 - Add snapshot fixtures from real Trivy output.
 - Add structured JSON logging for CI usage.
+
+## License
+
+Copyright © 2026 Karen Hovhannisyan. All rights reserved.
+
+This repository is provided for technical assignment review purposes only.
+No permission is granted to copy, modify, distribute, sublicense, or use this code in commercial or production systems without explicit written permission.
